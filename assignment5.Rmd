@@ -16,7 +16,8 @@ The data you will be using comes from the Assistments online intelligent tutorin
 
 ## Start by uploading the data
 ```{r}
-D1 <- 
+D1 <- read.csv("Assistments-confidence.csv")
+D1
 
 ```
 
@@ -38,8 +39,9 @@ ggcorr(D1[,-1], method = c("everything", "pearson")) #ggcorr() doesn't have an e
 ## Create a new data frame with the mean_correct variable removed, we want to keep that variable intact. The other variables will be included in our PCA.
 
 ```{r}
-D2 <- 
-
+library(dplyr)
+D2 <- select(D1,-id,-mean_correct)
+D2
 ```
 
 ## Now run the PCA on the new data frame
@@ -73,17 +75,20 @@ plot(pca, type = "lines")
 ```{r}
 #Now, create a data frame of the transformed data from your pca.
 
-D3 <- 
+D3 <- data.frame(pca$x)
 
 #Attach the variable "mean_correct" from your original data frame to D3.
-
+D3 <- data.frame(D3,D1$mean_correct)
 
 
 #Now re-run your correlation plots between the transformed data and mean_correct. If you had dropped some components would you have lost important infomation about mean_correct?
-
-
+ggpairs(D3, progress = FALSE)
+ggcorr(D3, method = c("everything", "pearson"))
+```
+We would lost valuable information about the variable of interest.
 
 ```
+
 ## Now print out the loadings for the components you generated:
 
 ```{r}
@@ -91,22 +96,58 @@ pca$rotation
 
 #Examine the eigenvectors, notice that they are a little difficult to interpret. It is much easier to make sense of them if we make them proportional within each component
 
-loadings <- abs(pca$rotation) #abs() will make all eigenvectors positive
+loadings <- abs(pca$rotation) 
+
+#abs() will make all eigenvectors positive
 
 #Now examine your components and try to come up with substantive descriptions of what some might represent?
+
+#1)PC1 indicates how much effort the student put in or how many attempts.
+#2)PC2 represents the students’ prior knowledge to a certain extent.
+#3)PC3 shows the high average confidence of the students, it related to the higher correctness in the question 2.
+#4)PC4 means that the students’ previous attempts are related to their confidence level
+#5)PC5 represents a general attempt by students
+#6)PC6 stands for whether need tips or not.
 
 #You can generate a biplot to help you, though these can be a bit confusing. They plot the transformed data by the first two components. Therefore, the axes represent the direction of maximum variance accounted for. Then mapped onto this point cloud are the original directions of the variables, depicted as red arrows. It is supposed to provide a visualization of which variables "go together". Variables that possibly represent the same underlying construct point in the same direction.  
 
 biplot(pca)
 
-
 ```
+
+
+
 # Part III  
 Also in this repository is a data set collected from TC students (tc-program-combos.csv) that shows how many students thought that a TC program was related to andother TC program. Students were shown three program names at a time and were asked which two of the three were most similar. Use PCA to look for components that represent related programs. Explain why you think there are relationships between these programs.
 
-```{r}
 
+```{r}
+library(ggplot2)
+library(GGally)
+library(dplyr)
 ```
+
+
+```{r}
+DF1 <- read.csv("tc-program-combos.csv", header=TRUE)
+DF2 <- DF1[,-1]
+DF1
+DF2
+```
+
+```{r}
+mypca <- prcomp(DF2, scale = TRUE)
+mypca
+summary(mypca)
+plot(mypca, type = "l")
+biplot(mypca, scale = 0)
+mypca$x
+DF3 <- data.frame(DF1, mypca$x[,c(1:2)])
+ggplot(DF3, aes(PC1,PC2, col = program, fill = program)) + 
+  stat_smooth(geom = "smooth")+ 
+  geom_point(shape = 21, col = "black")
+```
+
 
 
 
