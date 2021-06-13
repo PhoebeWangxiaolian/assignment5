@@ -19,7 +19,6 @@ The data you will be using comes from the Assistments online intelligent tutorin
 ## Start by uploading the data
 ```{r}
 D1 <- read.csv("Assistments-confidence.csv")
-D1
 
 ```
 
@@ -43,7 +42,7 @@ ggcorr(D1[,-1], method = c("everything", "pearson")) #ggcorr() doesn't have an e
 ```{r}
 library(dplyr)
 D2 <- select(D1,-id,-mean_correct)
-D2
+
 ```
 
 ## Now run the PCA on the new data frame
@@ -134,8 +133,7 @@ library(dplyr)
 ```{r}
 DF1 <- read.csv("tc-program-combos.csv", header=TRUE)
 DF2 <- DF1[,-1]
-DF1
-DF2
+
 ```
 
 ```{r}
