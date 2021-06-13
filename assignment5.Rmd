@@ -1,6 +1,8 @@
 ---
 title: "Principle Component Aanalysis"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 ## Data
 The data you will be using comes from the Assistments online intelligent tutoring system (https://www.assistments.org/). It describes students working through online math problems. Each student has the following data associated with them:
@@ -69,6 +71,7 @@ plot(pca, type = "lines")
 ```
 
 ## Decide which components you would drop and remove them from your data set.
+#I will remove the PC5 and PC6 since they only account for a small proportion of the variance
 
 ## Part II
 
@@ -85,7 +88,7 @@ D3 <- data.frame(D3,D1$mean_correct)
 ggpairs(D3, progress = FALSE)
 ggcorr(D3, method = c("everything", "pearson"))
 ```
-We would lost valuable information about the variable of interest.
+#We would lost valuable information if drop PC5 and PC6. Because the correlation between PC6 and mean correct is -0.393, which is not small comparing to others.
 
 ```
 
