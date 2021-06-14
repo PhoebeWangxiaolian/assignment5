@@ -1,11 +1,7 @@
 # Principle Component Aanalysis
-```{r}
-library(Factoshiny)
-PCAshiny(D2)
-```
 
 The purpose of this project is to visualize students hints student's  based on how they perform on math problems.
-<img align="center" width = "850" src="https://github.com/victoria-yang/interactive-visualization-project/blob/master/ShinyGif.gif">
+<img align="center" width = "850" src="https://github.com/PhoebeWangxiaolian/assignment5/blob/36f4cfff66ac48d2c228fa7ee7b80753746f192f/CPT2106140615-1332x747-min.gif">
 
 ## Data
 The data you will be using comes from the Assistments online intelligent tutoring system (https://www.assistments.org/). It describes students working through online math problems. Each student has the following data associated with them:
